@@ -22,21 +22,23 @@ describe("Home", () => {
   });
 
   it("renders invalid user message if not available", () => {
-    mockUser.mockReturnValue({ isLoaded: false, isSignedIn: false });
+    mockUser.mockReturnValue({ isSignedIn: false });
 
     render(<Home />);
 
-    const element = screen.getByText("Invalid user");
+    const CreatePostWizard = screen.queryByTestId("CreatePostWizard");
+    const PostsFeed = screen.getByTestId("PostsFeed");
 
-    expect(element).toBeInTheDocument();
+    expect(CreatePostWizard).toBeNull();
+    expect(PostsFeed).toBeInTheDocument();
   });
 
   it("renders CreatePostWizard and PostsFeed, if user loaded", () => {
-    mockUser.mockReturnValue({ isLoaded: true, isSignedIn: true });
+    mockUser.mockReturnValue({ isSignedIn: true });
 
     render(<Home />);
 
-    const CreatePostWizard = screen.getByTestId("CreatePostWizard");
+    const CreatePostWizard = screen.queryByTestId("CreatePostWizard");
     const PostsFeed = screen.getByTestId("PostsFeed");
 
     expect(CreatePostWizard).toBeInTheDocument();
